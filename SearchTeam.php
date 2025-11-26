@@ -1,6 +1,6 @@
 <?php
 $servername = "localhost";
-$username = "";
+$username = "root";
 $password = "";
 $dbname = "usersandmatch";
 
@@ -15,7 +15,7 @@ $teamname=$_GET['TeamName'];
 $leaguename=$_GET['League'];
 $query = "SELECT team.TeamName,team.League,coach.CoachName FROM team 
          LEFT JOIN coach ON team.TeamName = coach.TeamName
-         WHERE TeamName='$teamname' AND League='$leaguename'";
+         WHERE team.TeamName='$teamname' AND team.League='$leaguename'";
 $result= $conn->query($query);
 
 if($result->num_rows > 0){
@@ -27,16 +27,16 @@ if($result->num_rows > 0){
 }
 
 #Add TeamName to Manager, important
-$query = "SELECT manager.TeamName,manager.ManagerID,manager.Role,funds.Amount,sponsor.SponsorName,owners.OwnerName FROM manager
+$query = "SELECT manager.TeamName,manager.ManagerID,manager.Role,funds.Amount,sponsor.SponsorName,givemoney.OwnerName FROM manager
          LEFT JOIN funds ON funds.ManagerID = manager.ManagerID
          LEFT JOIN givemoney ON givemoney.FundID = funds.FundID
-         LEFT JOIN sponsor ON givemoney.SponsorName = sponsor.SponsorName
-         LEFT JOIN owners ON givemoney.OwnerName = owners.OwnerName
+         LEFT JOIN sponsor ON sponsor.SponsorName = givemoney.SponsorName
          WHERE manager.TeamName='$teamname'";
 $result= $conn->query($query);
 
 if($result->num_rows > 0){
-    echo "Owner: ". $row["OwnerName"] . "<br>" . "<br> Manager: ". $row["ManagerID"]." | Role: ". $row["Role"] . "<br>";
+    $findata = $result->fetch_assoc();
+    echo "Owner: ". $findata["OwnerName"] . "<br>" . "<br> Manager: ". $findata["ManagerID"]." | Role: ". $findata["Role"] . "<br>";
     while($row = $result->fetch_assoc()){
         echo "Sponsor amount: ". $row["Amount"]. " | Current Sponsor: ". $row["SponsorName"] . "<br>". "<br>";
     }

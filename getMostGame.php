@@ -1,6 +1,6 @@
 <?php
 $servername = "localhost";
-$username = "";
+$username = "root";
 $password = "";
 $dbname = "usersandmatch";
 
@@ -11,7 +11,6 @@ if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);
 }
 
-$playerid=$_GET['PlayerID'];
 $query = "SELECT TeamName,PlayerNumber,GamesPlayed FROM player 
          WHERE GamesPlayed=(SELECT MAX(GamesPlayed) FROM player)";
 $result= $conn->query($query);

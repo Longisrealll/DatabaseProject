@@ -1,6 +1,6 @@
 <?php
 $servername = "localhost";
-$username = "";
+$username = "root";
 $password = "";
 $dbname = "usersandmatch";
 
@@ -16,8 +16,8 @@ $theteam=$_GET['TeamName'];
 $games=$_GET['GamesPlayed'];
 
 $query = "UPDATE player
-          SET TeamName = $theteam,GamesPlayed = $games 
-         WHERE PlayerID='$playerid'";
+          SET TeamName = '$theteam',GamesPlayed = $games 
+         WHERE PlayerID=$playerid";
 $result= $conn->query($query);
 
 if($result){
